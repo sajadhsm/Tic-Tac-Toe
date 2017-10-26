@@ -28,7 +28,7 @@ body {
   height: 500px;
   padding: 15px;
   border-radius: 4px;
-  box-shadow: 0 20px 50px -5px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 50px 100px -5px rgba(0, 0, 0, 0.35);
   background-image: radial-gradient(circle at top left, hsl(222, 35%, 27%), hsl(222, 35%, 20%));
 }
 
@@ -91,4 +91,25 @@ body {
   box-shadow: 0 5px 20px -5px rgba(0, 0, 0, 0.25);
   cursor: pointer;
   transition: all .23s;
+}
+
+/** Scores **/
+#scores {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding: 15px;
+  border-radius: 4px;
+  box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.35);
+  background-image: radial-gradient(circle at top left, hsl(222, 35%, 27%), hsl(222, 35%, 20%));
+}
+
+.box {
+  text-align: center;
+}
+.box .icon {
+  font-size: 2em;
+  font-weight: 700;
+  text-shadow: 0px 8px 10px rgba(0, 0, 0, 0.35);
+  color: hsl(222, 89%, 70%);
 }

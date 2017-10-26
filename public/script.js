@@ -25,7 +25,7 @@ choose.style.display = 'none';
 function multiPlayer() {
     options.style.display = 'none';
     chooseTurn();
-    
+
 }
 
 function chooseTurn() {
@@ -50,7 +50,13 @@ function clearBoard() {
 }
 
 function recordGame(trn) {
-    trn === 'X' ? xWins++ : oWins++;
+    if (trn === 'X') {
+        xWins++;
+        document.querySelector('.x-wins').innerHTML = xWins;
+    } else {
+        oWins++;
+        document.querySelector('.o-wins').innerHTML = oWins;
+    }
 
     for (let i = 0; i < 3; i++) {
         for (let j = 0; j < 3; j++) gBoard[i][j] = '';
@@ -101,6 +107,7 @@ function checkWin(brd, trn) {
     if (move === 9) {
         console.log('Draw!');
         draws++;
+        document.querySelector('.draws').innerHTML = draws;
         clearBoard();
     }
 }
