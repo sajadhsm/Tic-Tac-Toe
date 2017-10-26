@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
+
 *,
 *:before,
 *:after {
@@ -8,7 +10,7 @@
 
 body {
   color: #fff;
-  font-family: sans-serif;
+  font-family: 'Montserrat', sans-serif;
   background-image: radial-gradient(circle at top, #3C4E76 0%, #273550 100%);
 }
 
