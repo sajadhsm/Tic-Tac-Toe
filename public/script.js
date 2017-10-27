@@ -3,8 +3,11 @@ const options = document.querySelector('#options');
 const choose = document.querySelector('#choose');
 const board = document.querySelector('#board');
 const buttons = document.querySelectorAll('.flx');
+const menuIcon = document.querySelector('.menu-box');
+const resetIcon = document.querySelector('.reset-box');
 
 // Global variables
+let gameStatus = true;
 let turn;
 let move = 0;
 
@@ -41,28 +44,30 @@ function chooseTurn() {
 }
 
 function clearBoard() {
+    // Clear gBoard
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) gBoard[i][j] = '';
+    }
+    // Clear buttons marks
     buttons.forEach(btn => {
         const childTxt = btn.firstElementChild;
         childTxt.innerHTML = '';
     });
-
+    // Reset Status
     move = 0;
+    gameStatus = true;
 }
 
 function recordGame(trn) {
     if (trn === 'X') {
         xWins++;
         document.querySelector('.x-wins').innerHTML = xWins;
+        gameStatus = false;
     } else {
         oWins++;
         document.querySelector('.o-wins').innerHTML = oWins;
+        gameStatus = false;
     }
-
-    for (let i = 0; i < 3; i++) {
-        for (let j = 0; j < 3; j++) gBoard[i][j] = '';
-    }
-
-    clearBoard();
 }
 
 function checkWin(brd, trn) {
@@ -108,29 +113,39 @@ function checkWin(brd, trn) {
         console.log('Draw!');
         draws++;
         document.querySelector('.draws').innerHTML = draws;
-        clearBoard();
+        gameStatus = false;
     }
 }
 
 buttons.forEach(btn => {
     btn.addEventListener('click', () => {
-        const childTxt = btn.firstElementChild;
-
-        const bi = btn.dataset.index[0];
-        const bj = btn.dataset.index[1];
-        
-        if (childTxt.innerHTML === '') {
-            childTxt.innerHTML = turn;
-            gBoard[bi][bj] = turn;
-            checkWin(gBoard, turn);
-            turn = turn === 'X' ? 'O' : 'X';
-        } else {
-            alert('Choose another box dude!!!');
+        if (gameStatus) {
+            const childTxt = btn.firstElementChild;
+            
+            const bi = btn.dataset.index[0];
+            const bj = btn.dataset.index[1];
+            
+            if (childTxt.innerHTML === '') {
+                childTxt.innerHTML = turn;
+                gBoard[bi][bj] = turn;
+                move++;
+                checkWin(gBoard, turn);
+                turn = turn === 'X' ? 'O' : 'X';
+            } else {
+                alert('Choose another box dude!!!');
+            }
         }
-        move++;
     });
 });
 
+menuIcon.addEventListener('click', () => {
+    clearBoard();
+    board.style.display = 'none';
+    choose.style.display = 'none';
+    options.style.display = 'flex';
+});
+
+resetIcon.addEventListener('click', clearBoard);
 
 // document.querySelector('.single').addEventListener('click', singlePlayer);
 document.querySelector('.multi').addEventListener('click', multiPlayer);
