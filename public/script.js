@@ -183,4 +183,3 @@ resetIcon.addEventListener('click', clearBoard);
 
 document.querySelector('.single').addEventListener('click', singlePlayer);
 document.querySelector('.multi').addEventListener('click', multiPlayer);
-// document.querySelector('.online').addEventListener('click', onlineGame);

@@ -72,6 +72,16 @@ body {
   text-transform: uppercase;
 }
 
+/* Disabled buttons */
+.disable>div {
+  opacity: .35;
+  background-image: radial-gradient(circle at top left, hsl(222, 20%, 40%), hsl(222, 10%, 30%));
+  cursor: not-allowed;
+}
+.disable>div:hover {
+  background-image: radial-gradient(circle at top left, hsl(222, 20%, 40%), hsl(222, 10%, 30%));
+}
+
 #choose {
   justify-content: center;
   align-items: center;
