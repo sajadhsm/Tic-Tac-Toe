@@ -8,7 +8,9 @@ const resetIcon = document.querySelector('.reset-box');
 
 // Global variables
 let gameStatus = true;
+let AI = false;
 let turn;
+let AITurn;
 let move = 0;
 
 let xWins = 0;
@@ -25,6 +27,12 @@ const gBoard = [
 board.style.display = 'none';
 choose.style.display = 'none';
 
+function singlePlayer() {
+    options.style.display = 'none';
+    AI = true;
+    chooseTurn();
+}
+
 function multiPlayer() {
     options.style.display = 'none';
     chooseTurn();
@@ -37,6 +45,9 @@ function chooseTurn() {
     xo.forEach(div => {
         div.addEventListener('click', () => {
             turn = div.innerHTML;
+            if (AI) {
+                turn === 'X' ? AITurn = 'O' : AITurn = 'X';
+            }
             choose.style.display = 'none';
             board.style.display = 'flex';
         });
@@ -117,6 +128,21 @@ function checkWin(brd, trn) {
     }
 }
 
+function AIMove() {
+    let allow = true;
+    do {
+        const randI = Math.floor(Math.random() * 3);
+        const randJ = Math.floor(Math.random() * 3);
+        if (gBoard[randI][randJ] === '') {
+            gBoard[randI][randJ] = AITurn;
+            document.querySelector(`[data-index="${randI}${randJ}"]`).firstElementChild.innerHTML = AITurn;
+            move++;
+            checkWin(gBoard, AITurn);
+            allow = false;
+        }
+    } while (allow);
+}
+
 buttons.forEach(btn => {
     btn.addEventListener('click', () => {
         if (gameStatus) {
@@ -126,11 +152,19 @@ buttons.forEach(btn => {
             const bj = btn.dataset.index[1];
             
             if (childTxt.innerHTML === '') {
-                childTxt.innerHTML = turn;
-                gBoard[bi][bj] = turn;
-                move++;
-                checkWin(gBoard, turn);
-                turn = turn === 'X' ? 'O' : 'X';
+                if (AI) {
+                    childTxt.innerHTML = turn;
+                    gBoard[bi][bj] = turn;
+                    move++;
+                    checkWin(gBoard, turn);
+                    if (move < 9) AIMove();
+                } else {
+                    childTxt.innerHTML = turn;
+                    gBoard[bi][bj] = turn;
+                    move++;
+                    checkWin(gBoard, turn);
+                    turn = turn === 'X' ? 'O' : 'X';
+                }
             } else {
                 alert('Choose another box dude!!!');
             }
@@ -147,6 +181,6 @@ menuIcon.addEventListener('click', () => {
 
 resetIcon.addEventListener('click', clearBoard);
 
-// document.querySelector('.single').addEventListener('click', singlePlayer);
+document.querySelector('.single').addEventListener('click', singlePlayer);
 document.querySelector('.multi').addEventListener('click', multiPlayer);
 // document.querySelector('.online').addEventListener('click', onlineGame);
