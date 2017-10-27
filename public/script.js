@@ -18,9 +18,9 @@ let oWins = 0;
 let draws = 0;
 
 const gBoard = [
-    ['', '' ,''],
-    ['', '' ,''],
-    ['', '' ,'']
+    ['', '', ''],
+    ['', '', ''],
+    ['', '', '']
 ];
 
 // Hide game board at game start
@@ -89,9 +89,9 @@ function recordGame(trn) {
 
 function checkWin(brd, trn) {
     // Row check
-    for(let i = 0; i < 3; i++) {
+    for (let i = 0; i < 3; i++) {
         let count = 0;
-        for(let j = 0; j < 3; j++) {
+        for (let j = 0; j < 3; j++) {
             if (brd[i][j] === trn) count++;
         }
         if (count === 3) {
@@ -102,9 +102,9 @@ function checkWin(brd, trn) {
     }
 
     // Column check
-    for(let i = 0; i < 3; i++) {
+    for (let i = 0; i < 3; i++) {
         let count = 0;
-        for(let j = 0; j < 3; j++) {
+        for (let j = 0; j < 3; j++) {
             if (brd[j][i] === trn) count++;
         }
         if (count === 3) {
@@ -115,17 +115,17 @@ function checkWin(brd, trn) {
     }
 
     // Diagonal check
-    if (brd[0][0]===trn && brd[1][1]===trn && brd[2][2]===trn) {
+    if (brd[0][0] === trn && brd[1][1] === trn && brd[2][2] === trn) {
         console.log(`${trn} wins!`);
         recordGame(trn);
         return;
     }
-    if (brd[0][2]===trn && brd[1][1]===trn && brd[2][0]===trn) {
+    if (brd[0][2] === trn && brd[1][1] === trn && brd[2][0] === trn) {
         console.log(`${trn} wins!`);
         recordGame(trn);
         return;
     }
-
+    // Draw check
     if (move === 9) {
         console.log('Draw!');
         draws++;
@@ -141,7 +141,8 @@ function AIMove() {
         const randJ = Math.floor(Math.random() * 3);
         if (gBoard[randI][randJ] === '') {
             gBoard[randI][randJ] = AITurn;
-            document.querySelector(`[data-index="${randI}${randJ}"]`).firstElementChild.innerHTML = AITurn;
+            const btn = document.querySelector(`[data-index="${randI}${randJ}"]`);
+            btn.firstElementChild.innerHTML = AITurn;
             move++;
             checkWin(gBoard, AITurn);
             allow = false;
@@ -153,17 +154,17 @@ buttons.forEach(btn => {
     btn.addEventListener('click', () => {
         if (gameStatus) {
             const childTxt = btn.firstElementChild;
-            
+
             const bi = btn.dataset.index[0];
             const bj = btn.dataset.index[1];
-            
+
             if (childTxt.innerHTML === '') {
                 if (AI) {
                     childTxt.innerHTML = turn;
                     gBoard[bi][bj] = turn;
                     move++;
                     checkWin(gBoard, turn);
-                    if (move < 9) AIMove();
+                    if (move < 9 && gameStatus) AIMove();
                 } else {
                     childTxt.innerHTML = turn;
                     gBoard[bi][bj] = turn;
