@@ -35,8 +35,8 @@ function singlePlayer() {
 
 function multiPlayer() {
     options.style.display = 'none';
+    AI = false;
     chooseTurn();
-
 }
 
 function chooseTurn() {
@@ -69,14 +69,20 @@ function clearBoard() {
     gameStatus = true;
 }
 
+function updateScores() {
+    document.querySelector('.x-wins').innerHTML = xWins;
+    document.querySelector('.o-wins').innerHTML = oWins;
+    document.querySelector('.draws').innerHTML = draws;
+}
+
 function recordGame(trn) {
     if (trn === 'X') {
         xWins++;
-        document.querySelector('.x-wins').innerHTML = xWins;
+        updateScores();
         gameStatus = false;
     } else {
         oWins++;
-        document.querySelector('.o-wins').innerHTML = oWins;
+        updateScores();
         gameStatus = false;
     }
 }
@@ -123,7 +129,7 @@ function checkWin(brd, trn) {
     if (move === 9) {
         console.log('Draw!');
         draws++;
-        document.querySelector('.draws').innerHTML = draws;
+        updateScores();
         gameStatus = false;
     }
 }
@@ -174,6 +180,10 @@ buttons.forEach(btn => {
 
 menuIcon.addEventListener('click', () => {
     clearBoard();
+    xWins = 0;
+    oWins = 0;
+    draws = 0;
+    updateScores();
     board.style.display = 'none';
     choose.style.display = 'none';
     options.style.display = 'flex';
