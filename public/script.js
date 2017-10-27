@@ -134,7 +134,7 @@ function checkWin(brd, trn) {
     }
 }
 
-function AIMove() {
+function randomPlay() {
     let allow = true;
     do {
         const randI = Math.floor(Math.random() * 3);
@@ -148,6 +148,202 @@ function AIMove() {
             allow = false;
         }
     } while (allow);
+}
+
+function tacticalPlay(brd, trn, opTrn) {
+    console.log('TacTical');
+    // Win (2 in row)
+    for (let i = 0; i < 3; i++) {
+        let count = 0;
+        let putI, putJ;
+        for (let j = 0; j < 3; j++) {
+            if (brd[i][j] === trn) count++;
+            else {
+                putI = i;
+                putJ = j;
+            }
+        }
+        if (count === 2 && brd[putI][putJ] === '') {
+            console.log(`Has Two: ROW ${putI}, ${putJ}`);
+            gBoard[putI][putJ] = trn;
+            const btn = document.querySelector(`[data-index="${putI}${putJ}"]`);
+            btn.firstElementChild.innerHTML = AITurn;
+            move++;
+            return;
+        }
+    }
+    // Win (2 in column)
+    for (let i = 0; i < 3; i++) {
+        let count = 0;
+        let putI, putJ;
+        for (let j = 0; j < 3; j++) {
+            if (brd[j][i] === trn) count++;
+            else {
+                putI = i;
+                putJ = j;
+            }
+        }
+        if (count === 2 && brd[putJ][putI] === '') {
+            console.log(`Has Two: COL ${putJ}, ${putI}`);
+            gBoard[putJ][putI] = trn;
+            const btn = document.querySelector(`[data-index="${putJ}${putI}"]`);
+            btn.firstElementChild.innerHTML = AITurn;
+            move++;
+            return;
+        }
+    }
+    // Win (2 in diagonal)
+    if (brd[0][0] === trn && brd[1][1] === trn && brd[2][2] === '') {
+        console.log(`Has Two: DIA ${2}, ${2}`);
+        gBoard[2][2] = trn;
+        const btn = document.querySelector(`[data-index="${2}${2}"]`);
+        btn.firstElementChild.innerHTML = AITurn;
+        move++;
+        return;
+    } else if (brd[1][1] === trn && brd[2][2] === trn && brd[0][0] === '') {
+        console.log(`Has Two: DIA ${0}, ${0}`);
+        gBoard[0][0] = trn;
+        const btn = document.querySelector(`[data-index="${0}${0}"]`);
+        btn.firstElementChild.innerHTML = AITurn;
+        move++;
+        return;
+    } else if (brd[0][0] === trn && brd[2][2] === trn && brd[1][1] === '') {
+        console.log(`Has Two: DIA ${1}, ${1}`);
+        gBoard[1][1] = trn;
+        const btn = document.querySelector(`[data-index="${1}${1}"]`);
+        btn.firstElementChild.innerHTML = AITurn;
+        move++;
+        return;
+    }
+
+    if (brd[0][2] === trn && brd[1][1] === trn && brd[2][0] === '') {
+        console.log(`Has Two: DIA ${2}, ${0}`);
+        gBoard[2][0] = trn;
+        const btn = document.querySelector(`[data-index="${2}${0}"]`);
+        btn.firstElementChild.innerHTML = AITurn;
+        move++;
+        return;
+    } else if (brd[1][1] === trn && brd[2][0] === trn && brd[0][2] === '') {
+        console.log(`Has Two: DIA ${0}, ${2}`);
+        gBoard[0][2] = trn;
+        const btn = document.querySelector(`[data-index="${0}${2}"]`);
+        btn.firstElementChild.innerHTML = AITurn;
+        move++;
+        return;
+    } else if (brd[0][2] === trn && brd[2][0] === trn && brd[1][1] === '') {
+        console.log(`Has Two: DIA ${1}, ${1}`);
+        gBoard[1][1] = trn;
+        const btn = document.querySelector(`[data-index="${1}${1}"]`);
+        btn.firstElementChild.innerHTML = AITurn;
+        move++;
+        return;
+    }
+
+    // Block (2 in row opp)
+    for (let i = 0; i < 3; i++) {
+        let count = 0;
+        let putI, putJ;
+        for (let j = 0; j < 3; j++) {
+            if (brd[i][j] === opTrn) count++;
+            else {
+                putI = i;
+                putJ = j;
+            }
+        }
+        if (count === 2 && brd[putI][putJ] === '') {
+            console.log(`Block Two: ROW ${putI}, ${putJ}`);
+            gBoard[putI][putJ] = trn;
+            const btn = document.querySelector(`[data-index="${putI}${putJ}"]`);
+            btn.firstElementChild.innerHTML = AITurn;
+            move++;
+            return;
+        }
+    }
+    // Block (2 in column)
+    for (let i = 0; i < 3; i++) {
+        let count = 0;
+        let putI, putJ;
+        for (let j = 0; j < 3; j++) {
+            if (brd[j][i] === opTrn) count++;
+            else {
+                putI = i;
+                putJ = j;
+            }
+        }
+        if (count === 2 && brd[putJ][putI] === '') {
+            console.log(`Block Two: COL ${putJ}, ${putI}`);
+            gBoard[putJ][putI] = trn;
+            const btn = document.querySelector(`[data-index="${putJ}${putI}"]`);
+            btn.firstElementChild.innerHTML = AITurn;
+            move++;
+            return;
+        }
+    }
+    // Block (2 in diagonal)
+    if (brd[0][0] === opTrn && brd[1][1] === opTrn && brd[2][2] === '') {
+        console.log(`Block Two: DIA ${2}, ${2}`);
+        gBoard[2][2] = trn;
+        const btn = document.querySelector(`[data-index="${2}${2}"]`);
+        btn.firstElementChild.innerHTML = AITurn;
+        move++;
+        return;
+    } else if (brd[1][1] === opTrn && brd[2][2] === opTrn && brd[0][0] === '') {
+        console.log(`Block Two: DIA ${0}, ${0}`);
+        gBoard[0][0] = trn;
+        const btn = document.querySelector(`[data-index="${0}${0}"]`);
+        btn.firstElementChild.innerHTML = AITurn;
+        move++;
+        return;
+    } else if (brd[0][0] === opTrn && brd[2][2] === opTrn && brd[1][1] === '') {
+        console.log(`Block Two: DIA ${1}, ${1}`);
+        gBoard[1][1] = trn;
+        const btn = document.querySelector(`[data-index="${1}${1}"]`);
+        btn.firstElementChild.innerHTML = AITurn;
+        move++;
+        return;
+    }
+
+    if (brd[0][2] === opTrn && brd[1][1] === opTrn && brd[2][0] === '') {
+        console.log(`Block Two: DIA ${2}, ${0}`);
+        gBoard[2][0] = trn;
+        const btn = document.querySelector(`[data-index="${2}${0}"]`);
+        btn.firstElementChild.innerHTML = AITurn;
+        move++;
+        return;
+    } else if (brd[1][1] === opTrn && brd[2][0] === opTrn && brd[0][2] === '') {
+        console.log(`Block Two: DIA ${0}, ${2}`);
+        gBoard[0][2] = trn;
+        const btn = document.querySelector(`[data-index="${0}${2}"]`);
+        btn.firstElementChild.innerHTML = AITurn;
+        move++;
+        return;
+    } else if (brd[0][2] === opTrn && brd[2][0] === opTrn && brd[1][1] === '') {
+        console.log(`Block Two: DIA ${1}, ${1}`);
+        gBoard[1][1] = trn;
+        const btn = document.querySelector(`[data-index="${1}${1}"]`);
+        btn.firstElementChild.innerHTML = AITurn;
+        move++;
+        return;
+    }
+
+    console.log('No Win/Block go for random :\\');
+    randomPlay();
+}
+
+let lessStupid = true;
+
+function AIMove() {
+    if (!lessStupid) {
+        randomPlay();
+        checkWin(gBoard, AITurn);
+    } else {
+        if (move < 3) { // Bucause there's no pair
+            randomPlay();
+        } else {
+            tacticalPlay(gBoard, AITurn, turn);
+            checkWin(gBoard, AITurn);
+        }
+    }
 }
 
 buttons.forEach(btn => {
