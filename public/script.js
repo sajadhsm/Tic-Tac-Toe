@@ -75,14 +75,31 @@ function updateScores() {
     document.querySelector('.draws').innerHTML = draws;
 }
 
+function highlightWinner(icon) {
+    const blue = 'hsl(222, 89%, 70%)';
+    const violet = 'hsl(280, 91%, 75%)';
+    let iconElm;
+
+    if (icon === 'X') iconElm = document.querySelector('.x-icon');
+    else if (icon === 'O') iconElm = document.querySelector('.o-icon');
+    else iconElm = document.querySelector('.d-icon');
+
+    iconElm.style.color = violet;
+    setTimeout(() => {
+        iconElm.style.color = blue;
+    }, 750);
+}
+
 function recordGame(trn) {
     if (trn === 'X') {
         xWins++;
         updateScores();
+        highlightWinner('X');
         gameStatus = false;
     } else {
         oWins++;
         updateScores();
+        highlightWinner('O');
         gameStatus = false;
     }
 }
@@ -130,6 +147,7 @@ function checkWin(brd, trn) {
         console.log('Draw!');
         draws++;
         updateScores();
+        highlightWinner('D');
         gameStatus = false;
     }
 }

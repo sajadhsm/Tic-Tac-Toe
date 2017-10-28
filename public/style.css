@@ -163,4 +163,5 @@ body {
   font-weight: 700;
   text-shadow: 0px 8px 10px rgba(0, 0, 0, 0.35);
   color: hsl(222, 89%, 70%);
+  transition: all 0.75s ease-in-out;
 }
